@@ -8,7 +8,8 @@ set mouse=a
 set ignorecase
 set incsearch
 set encoding=utf-8
-"set dir=~/tmp
+set clipboard=unnamedplus
+set dir=~/tmp
 set autochdir "change pwd to the directory of the current file, sometimes it breaks then use lcd %:p:h
 "autocmd BufEnter * silent! lcd %:p:h
 
@@ -18,7 +19,6 @@ set shiftwidth=4 tabstop=4 softtabstop=4 expandtab autoindent smartindent
 
 colorscheme nord   "Color scheme
 """"""""""""""""""""""""""""""
-
 
 
 "Auto line numbers
@@ -31,6 +31,12 @@ augroup numbertoggle
 augroup END
 """"""""""""""""""""""""""""""
 
+"Code folding
+""""""""""""""""""""""""""""""
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+"set foldlevel=2
 
 
 "Plugins
@@ -174,10 +180,20 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_clear_inlay_hints_in_insert_mode=1
 let g:ycm_enable_inlay_hints=1
-let g:ycm_disable_signature_help = 1 
+let g:ycm_disable_signature_help = 0 
+imap <silent> <C-l> <Plug>(YCMToggleSignatureHelp)
+nnoremap <silent> <localleader>h <Plug>(YCMToggleInlayHints)
 " let g:SuperTabClosePreviewOnPopupClose = 1
-"
-"
+""
+
+" Clean auxillary files on exit
+"""""""""""""""""""""""""""""""
+augroup vimtex_config
+   au!
+   au User VimtexEventQuit call vimtex#compiler#clean(0)
+augroup END
+
+
 " Semantec Highlight for ycm
 """""""""""""""""""'"""""""""
 " call prop_type_add( 'YCM_HL_parameter', { 'highlight': 'Normal' } )
@@ -210,30 +226,30 @@ let g:ycm_disable_signature_help = 1
 
 "bibtex-ls
 """"""""""""""""""""
-let $FZF_BIBTEX_CACHEDIR='/home/pallav/.local/cache'
-let $FZF_BIBTEX_SOURCES='/home/pallav/work/docVault/collections/library.bib:/home/pallav/work/notebooks/papers/global.bib'
+" let $FZF_BIBTEX_CACHEDIR='/home/pallav/.local/cache'
+" let $FZF_BIBTEX_SOURCES='/home/pallav/work/docVault/collections/library.bib:/home/pallav/work/notebooks/papers/global.bib'
 
-function! s:bibtex_cite_sink(lines)
-    let r=system("bibtex-cite ", a:lines)
-    execute ':normal! a' . r
-endfunction
+" function! s:bibtex_cite_sink(lines)
+    " let r=system("bibtex-cite ", a:lines)
+    " execute ':normal! a' . r
+" endfunction
 
-function! s:bibtex_markdown_sink(lines)
-    let r=system("bibtex-markdown ", a:lines)
-    execute ':normal! a' . r
-endfunction
+" function! s:bibtex_markdown_sink(lines)
+    " let r=system("bibtex-markdown ", a:lines)
+    " execute ':normal! a' . r
+" endfunction
 
-nnoremap <silent> <leader>c :call fzf#run({
-                        \ 'source': 'bibtex-ls',
-                        \ 'sink*': function('<sid>bibtex_cite_sink'),
-                        \ 'up': '40%',
-                        \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
+" nnoremap <silent> <leader>c :call fzf#run({
+                        " \ 'source': 'bibtex-ls',
+                        " \ 'sink*': function('<sid>bibtex_cite_sink'),
+                        " \ 'up': '40%',
+                        " \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
 
-nnoremap <silent> <leader>m :call fzf#run({
-                        \ 'source': 'bibtex-ls',
-                        \ 'sink*': function('<sid>bibtex_markdown_sink'),
-                        \ 'up': '40%',
-                        \ 'options': '--ansi --layout=reverse-list --multi --prompt "Markdown> "'})<CR>
+" nnoremap <silent> <leader>m :call fzf#run({
+                        " \ 'source': 'bibtex-ls',
+                        " \ 'sink*': function('<sid>bibtex_markdown_sink'),
+                        " \ 'up': '40%',
+                        " \ 'options': '--ansi --layout=reverse-list --multi --prompt "Markdown> "'})<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -295,7 +311,7 @@ autocmd FileType tex nnoremap <leader>cc :w<cr> :!pdflatex %:r.tex && bibtex %:r
 " map <leader>cm :w<cr> :!pandoc -s -f gfm -o %:r.pdf %:r.md --pdf-engine=xelatex -V geometry:margin=2cm<cr>
 map <leader>cm :w<cr> :!pandoc -o %:r.pdf %:r.md<cr>
 
-" ale linting
+" ale linting and fixing
 """"""""""""""""""""""""""""""
 
 let g:ale_linters = {'python': 'all'}
