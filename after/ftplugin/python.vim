@@ -1,5 +1,5 @@
 set colorcolumn=80
-set tw=79
+set tw=0
 
 setlocal path =.,**
 setlocal wildignore=*.pyc
