@@ -35,8 +35,8 @@ augroup END
 """"""""""""""""""""""""""""""
 set foldmethod=indent
 set foldnestmax=10
-set nofoldenable
-"set foldlevel=2
+set foldlevel=99
+nnoremap <space> za
 
 
 "Plugins
@@ -78,12 +78,31 @@ call plug#end()
 
 "Lightline
 """""""""""""""""""""""""""""
+" word count
+""""""""""""""""""""""""""""""
+let g:word_count=wordcount().words
+function WordCount()
+    if has_key(wordcount(),'visual_words')
+        let g:word_count=wordcount().visual_words.":".wordcount().words " count selected words
+    else
+        let g:word_count=wordcount().cursor_words.":".wordcount().words " or shows words 'so far'
+    endif
+    return g:word_count
+endfunction
+
+
 set laststatus=2
 set noshowmode
 
 let g:lightline = { 
                 \ 'colorscheme': 'nord',
-                \}
+                \ 'active': {
+      \   'right': [ ['lineinfo'] , ['percent'], ['wordcount'], ['fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'wordcount': 'WordCount',
+      \ },
+      \ }
 """""""""""""""""""""""""""""
 
 
@@ -144,6 +163,10 @@ nmap ,P :w<CR>:!ipython -i %<CR>
 nmap ,p :w<CR>:!python -i %<CR>
 nmap ,t :w<CR>:!time python3 %<CR>
 """"""""""""""""""""""""""""""
+
+" bibtool sort
+"""""""""""""""""""
+map <Leader>bs :!bibtool -s % -o %<CR>
 
 
 " vim-tex
@@ -276,14 +299,15 @@ nmap <silent> <leader>q  :cclose<cr>
 
 " TOGGLE COMMENTS
 """"""""""""""""""""""""""""""
-autocmd FileType c,cpp,java,scala  let b:comment_leader = '//'
-autocmd FileType javascript        let b:comment_leader = '//'
-autocmd FileType solidity          let b:comment_leader = '//'
-autocmd FileType sh,ruby,python    let b:comment_leader = '#'
-autocmd FileType conf,fstab        let b:comment_leader = '#'
-autocmd FileType tex               let b:comment_leader = '%'
-autocmd FileType mail              let b:comment_leader = '>'
-autocmd FileType vim               let b:comment_leader = '"'
+autocmd FileType c,cpp,java,scala   let b:comment_leader = '//'
+autocmd FileType javascript         let b:comment_leader = '//'
+autocmd FileType solidity           let b:comment_leader = '//'
+autocmd FileType sh,ruby,python     let b:comment_leader = '#'
+autocmd FileType conf,fstab         let b:comment_leader = '#'
+autocmd FileType i3config           let b:comment_leader = '#'
+autocmd FileType tex                let b:comment_leader = '%'
+autocmd FileType mail               let b:comment_leader = '>'
+autocmd FileType vim                let b:comment_leader = '"'
 function! CommentToggle()
     execute ':silent! s/\([^ ]\)/' . escape(b:comment_leader,'\/') . ' \1/'
     execute ':silent! s/^\( *\)' . escape(b:comment_leader,'\/') . ' \?' . escape(b:comment_leader,'\/') . ' \?/\1/'
@@ -326,3 +350,6 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %code: %%s'
 let g:ale_completion_enabled = 0
 set scl=no
+
+
+
