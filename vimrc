@@ -9,7 +9,7 @@ set ignorecase
 set incsearch
 set encoding=utf-8
 set clipboard=unnamedplus
-set dir=~/tmp
+set dir=/tmp
 set autochdir "change pwd to the directory of the current file, sometimes it breaks then use lcd %:p:h
 "autocmd BufEnter * silent! lcd %:p:h
 
@@ -47,7 +47,7 @@ Plug 'SirVer/ultisnips' "snippets engine
 
 Plug 'honza/vim-snippets' "snippets
 
-Plug 'ycm-core/YouCompleteMe' "fuzzy search and code complettion
+Plug 'ycm-core/YouCompleteMe' "fuzzy search and code completion
 
 Plug 'lervag/vimtex' "Vim tex
 
@@ -174,8 +174,8 @@ map <Leader>bs :!bibtool -s % -o %<CR>
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
-set conceallevel=1
-let g:tex_conceal='abdmg'
+" set conceallevel=0
+" let g:tex_conceal='abdmg'
 
 
 " YouCompleteme
