@@ -186,7 +186,7 @@ let g:vimtex_quickfix_mode=0
         \ 'python' : ['.'],
     \}
 
-  " let g:ycm_filetype_blacklist = {}
+  let g:ycm_filetype_blacklist = {}
  " let g:ycm_filetype_whitelist = {
         " \ 'text': 1,
         " \ 'markdown': 1,
@@ -240,48 +240,10 @@ augroup END
 " endfor
 
 
-"Requires BibParser (pip)
-""""""""""""""""""""""""""""""
-
-
-"fzf related
-""""""""""""""""""""""""""""""
-
-"bibtex-ls
-""""""""""""""""""""
-" let $FZF_BIBTEX_CACHEDIR='/home/pallav/.local/cache'
-" let $FZF_BIBTEX_SOURCES='/home/pallav/work/docVault/collections/library.bib:/home/pallav/work/notebooks/papers/global.bib'
-
-" function! s:bibtex_cite_sink(lines)
-    " let r=system("bibtex-cite ", a:lines)
-    " execute ':normal! a' . r
-" endfunction
-
-" function! s:bibtex_markdown_sink(lines)
-    " let r=system("bibtex-markdown ", a:lines)
-    " execute ':normal! a' . r
-" endfunction
-
-" nnoremap <silent> <leader>c :call fzf#run({
-                        " \ 'source': 'bibtex-ls',
-                        " \ 'sink*': function('<sid>bibtex_cite_sink'),
-                        " \ 'up': '40%',
-                        " \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
-
-" nnoremap <silent> <leader>m :call fzf#run({
-                        " \ 'source': 'bibtex-ls',
-                        " \ 'sink*': function('<sid>bibtex_markdown_sink'),
-                        " \ 'up': '40%',
-                        " \ 'options': '--ansi --layout=reverse-list --multi --prompt "Markdown> "'})<CR>
-
-
-""""""""""""""""""""""""""""""
-
 "Fix pumvisible on autoclose ()
 """"""""""""""""""""""""""""""
  let g:AutoClosePreserveDotReg = 0
 
-""""""""""""""""""""""""""""""
 
 
 "Angry Reviewer
