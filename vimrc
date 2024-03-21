@@ -36,7 +36,7 @@ augroup END
 set foldmethod=indent
 set foldnestmax=10
 set foldlevel=99
-nnoremap <space> za
+" nnoremap <space> za
 
 
 "Plugins
@@ -70,6 +70,10 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'dense-analysis/ale' "Linting
 
 Plug 'chrisbra/csv.vim'
+
+Plug 'goerz/jupytext.vim'
+
+Plug 'dbridges/vim-markdown-runner'
 
 call plug#end()
 """""""""""""""""""""""""""""
@@ -186,7 +190,7 @@ let g:vimtex_quickfix_mode=0
         \ 'python' : ['.'],
     \}
 
-  let g:ycm_filetype_blacklist = {}
+  " let g:ycm_filetype_blacklist = {}
  " let g:ycm_filetype_whitelist = {
         " \ 'text': 1,
         " \ 'markdown': 1,
@@ -313,5 +317,9 @@ let g:ale_echo_msg_format = '[%linter%] [%severity%] %code: %%s'
 let g:ale_completion_enabled = 0
 set scl=no
 
+""""""""""""""""""""""""""""""
 
-
+"markdownrunner
+""""""""""""""""""""""""""""""
+autocmd FileType markdown nnoremap <buffer> <Leader>r :MarkdownRunner<CR>
+autocmd FileType markdown nnoremap <buffer> <Leader>R :MarkdownRunnerInsert<CR>
