@@ -4,11 +4,12 @@
 filetype plugin indent on
 syntax on
 set tw=108
+set bg=light
 set mouse=a
 set ignorecase
 set incsearch
 set encoding=utf-8
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 set dir=/tmp
 set autochdir "change pwd to the directory of the current file, sometimes it breaks then use lcd %:p:h
 "autocmd BufEnter * silent! lcd %:p:h
@@ -35,8 +36,8 @@ augroup END
 """"""""""""""""""""""""""""""
 set foldmethod=indent
 set foldnestmax=10
-set foldlevel=99
-" nnoremap <space> za
+set foldlevel=5
+nnoremap <space> za
 
 
 "Plugins
