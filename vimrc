@@ -42,6 +42,9 @@ nnoremap <space> za
 
 "Plugins
 """"""""""""""""""""""""""""""
+if has('python3')
+endif
+
 call plug#begin()
 
 Plug 'SirVer/ultisnips' "snippets engine
@@ -121,7 +124,7 @@ noremap! <C-h> <C-w>
 
 " ultisnips
 """"""""""""""""""""
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
@@ -171,7 +174,11 @@ nmap ,t :w<CR>:!time python3 %<CR>
 
 " bibtool sort
 """""""""""""""""""
-map <Leader>bs :!bibtool -s % -o %<CR>
+"for bibtex
+map <Leader>bts :!bibtool -s % -o %<CR>
+
+"for bibtex
+map <Leader>bls :!biber --tool % -outfile %<CR> 
 
 
 " vim-tex
