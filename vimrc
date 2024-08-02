@@ -4,7 +4,7 @@
 filetype plugin indent on
 syntax on
 set tw=108
-set bg=light
+" set bg=light
 set mouse=a
 set ignorecase
 set incsearch
@@ -51,8 +51,6 @@ Plug 'SirVer/ultisnips' "snippets engine
 
 Plug 'honza/vim-snippets' "snippets
 
-Plug 'ycm-core/YouCompleteMe' "fuzzy search and code completion
-
 Plug 'lervag/vimtex' "Vim tex
 
 Plug 'townk/vim-autoclose' "auto brackets, quotes
@@ -64,6 +62,8 @@ Plug 'junegunn/vim-easy-align' "align gaip
 Plug 'itchyny/lightline.vim'    "lightiline
 
 Plug 'junegunn/fzf.vim'
+
+Plug 'ycm-core/YouCompleteMe'  "fuzzy search and code completion
 
 Plug 'anufrievroman/vim-angry-reviewer' "academic grammer review
 
@@ -279,7 +279,7 @@ autocmd FileType solidity           let b:comment_leader = '//'
 autocmd FileType sh,ruby,python     let b:comment_leader = '#'
 autocmd FileType conf,fstab         let b:comment_leader = '#'
 autocmd FileType i3config           let b:comment_leader = '#'
-autocmd FileType tex                let b:comment_leader = '%'
+autocmd FileType tex,bib                let b:comment_leader = '%'
 autocmd FileType mail               let b:comment_leader = '>'
 autocmd FileType vim                let b:comment_leader = '"'
 function! CommentToggle()
@@ -331,3 +331,7 @@ set scl=no
 """"""""""""""""""""""""""""""
 autocmd FileType markdown nnoremap <buffer> <Leader>r :MarkdownRunner<CR>
 autocmd FileType markdown nnoremap <buffer> <Leader>R :MarkdownRunnerInsert<CR>
+
+"fzf related
+" let g:fzf_vim = {}
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
