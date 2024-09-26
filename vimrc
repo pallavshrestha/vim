@@ -124,10 +124,12 @@ noremap! <C-h> <C-w>
 
 " ultisnips
 """"""""""""""""""""
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:UltiSnipsEditSplit="vertical"
+let g:snips_author = "pallav"
+let g:snips_email = "shrestha.pallav@gmail.com"
 
 
 " Vim Easy Align
