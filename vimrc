@@ -75,9 +75,10 @@ Plug 'dense-analysis/ale' "Linting
 
 Plug 'chrisbra/csv.vim'
 
-Plug 'goerz/jupytext.vim'
+Plug 'goerz/jupytext.vim' "open ipynb as markdown
 
-Plug 'dbridges/vim-markdown-runner'
+Plug 'sillybun/vim-repl' "send code to repl for execution
+
 
 call plug#end()
 """""""""""""""""""""""""""""
@@ -194,20 +195,25 @@ let g:vimtex_quickfix_mode=0
 
 " YouCompleteme
 """""""""""""""""""""""""""""
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_sematic_triggers = {}
+endif 
+
  let g:ycm_semantic_triggers = {
         \ 'tex'  : ['{'],
         \ 'markdown'  : ['@'],
+        \ 'pandoc' : ['@'],
         \ 'python' : ['.'],
     \}
 
-  " let g:ycm_filetype_blacklist = {}
+  let g:ycm_filetype_blacklist = {}
  " let g:ycm_filetype_whitelist = {
-        " \ 'text': 1,
-        " \ 'markdown': 1,
-        " \ 'notes': 1,
-        " \ 'tex': 1,
-        " \ 'python': 1,
-        " \}
+         " \ 'text': 1,
+         " \ 'markdown': 1,
+         " \ 'notes': 1,
+         " \ 'tex': 1,
+         " \ 'python': 1,
+         " \}
 let g:ycm_python_binary_path='/home/pallav/conda/bin/python'
 let g:ycm_python_interpreter_path='/home/pallav/conda/bin/python'
 let g:ycm_enable_semantic_highlighting=1
@@ -309,7 +315,7 @@ map <Leader>ts :w<cr> :!tmc submit %<CR>
 
 autocmd FileType tex nnoremap <leader>cc :w<cr> :!pdflatex %:r.tex && bibtex %:r.aux && pdflatex %:r.tex && pdflatex %:r.tex && rm %:r.aux %:r.log %:r.blg %:r.bbl && notify-send -u low "LaTeX" "compilation is finished"<cr>
 " map <leader>cm :w<cr> :!pandoc -s -f gfm -o %:r.pdf %:r.md --pdf-engine=xelatex -V geometry:margin=2cm<cr>
-map <leader>cm :w<cr> :!pandoc -o %:r.pdf %:r.md<cr>
+autocmd Filetype markdown nnoremap <leader>cm :w<cr> :!pandoc -o %:r.pdf %:r.md<cr>
 
 " ale linting and fixing
 """"""""""""""""""""""""""""""
@@ -325,15 +331,48 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %code: %%s'
 let g:ale_completion_enabled = 0
+let g:ale_tex_chktex_options = '-n24; -n36' 
 set scl=no
 
 """"""""""""""""""""""""""""""
 
 "markdownrunner
 """"""""""""""""""""""""""""""
-autocmd FileType markdown nnoremap <buffer> <Leader>r :MarkdownRunner<CR>
-autocmd FileType markdown nnoremap <buffer> <Leader>R :MarkdownRunnerInsert<CR>
+" autocmd FileType markdown nnoremap <buffer> <Leader>r :MarkdownRunner<CR>
+" autocmd FileType markdown nnoremap <buffer> <Leader>R :MarkdownRunnerInsert<CR>\
+"
+"
 
-"fzf related
-" let g:fzf_vim = {}
-" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+" vimREPL
+""""""""""""""""""""""""""""""
+let g:repl_program = {
+            \   'python': 'ipython',
+            \   'markdown': 'ipython',
+            \   'default': 'bash',
+            \   'r': 'R',
+            \   'lua': 'lua',
+            \   'vim': 'vim -e',
+            \   }
+let g:repl_predefine_python = {
+            \   'numpy': 'import numpy as np',
+            \   'matplotlib': 'from matplotlib import pyplot as plt'
+            \   }
+let g:repl_code_block_fences = {'python': '### Start', 'zsh': '# %%', 'markdown': '```'}
+let g:repl_code_block_fences_end = {'python': '### End', 'zsh': '# %%', 'markdown': '```'}
+let g:repl_sendvariable_template = {
+            \ 'python': 'print(<input>)',
+            \ 'ipython': 'print(<input>)',
+            \ 'ptpython': 'print(<input>)',
+            \ }
+
+let g:repl_cursor_down = 1
+let g:repl_python_automerge = 1
+let g:repl_ipython_version = '7'
+let g:repl_output_copy_to_register = "t"
+nnoremap <leader>r :REPLToggle<Cr>
+nnoremap <leader>e :REPLSendSession<Cr>
+let g:sendtorepl_invoke_key = "<leader>w"
+let g:repl_console_name = 'ZYTREPL'
+let g:repl_position = 3
+let g:repl_python_auto_send_unfinish_line = 1
+
