@@ -17,9 +17,11 @@ set incsearch				    " don't jump to search results as search string is being ty
 set noshowmode            " disable in favor of lightline.vim's statusline
 set nofoldenable          " don't fold text by default when opening files
 set autowriteall          " write current buffer when moving buffers
+set clipboard=unnamedplus
 syntax enable             " enable syntax highlighting
 
 set dir=/tmp
+set backupdir=~/.cache/vim/backup
 set autochdir "change pwd to the directory of the current file, sometimes it breaks then use lcd %:p:h
 "autocmd BufEnter * silent! lcd %:p:h
 
@@ -44,6 +46,7 @@ if (has("termguicolors"))
 endif
 
 colorscheme nord          " set colorscheme
+hi Normal guibg=NONE ctermbg=NONE
 
 "Auto line numbers
 """"""""""""""""""""""""""""""
@@ -99,8 +102,13 @@ Plug 'sillybun/vim-repl' "send code to repl for execution
 Plug 'iamcco/markdown-preview.nvim' "markdown live preview in browser
 Plug 'dhruvasagar/vim-table-mode' "table mode, mostly for markdown
 Plug 'vim-pandoc/vim-pandoc' "markdown specific
+Plug 'sotte/presenting.vim'
 
 Plug 'anufrievroman/vim-angry-reviewer' "academic grammer review
+
+Plug 'jasonccox/vim-wayland-clipboard'
+
+Plug 'ledger/vim-ledger'
 
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""
@@ -216,7 +224,8 @@ nmap ,p :w<CR>:!python -i %<CR>
 nmap ,t :w<CR>:!time python3 %<CR>
 """"""""""""""""""""""""""""""
 
-" bibtoo sort
+" bibtool sort
+
 """""""""""""""""""
 "for bibtex
 map <Leader>bts :!bibtool -s % -o %<CR>
@@ -235,7 +244,7 @@ nmap ,ts :w<cr> :!tmc submit %<CR>
 " these are usually covered by other plugins, this is backup in case
 " everything fails for bruteforcing or testing purpose
 
-autocmd FileType tex nnoremap <leader>cc :w<cr> :!pdflatex %:r.tex && bibtex %:r.aux && pdflatex %:r.tex && pdflatex %:r.tex && rm %:r.aux %:r.log %:r.blg %:r.bbl && notify-send -u low "LaTeX" "compilation is finished"<cr>
+autocmd FileType tex nnoremap <leader>cc :w<cr> :!pdflatex -recorder %:r.tex && bibtex %:r.aux && pdflatex %:r.tex && pdflatex %:r.tex && rm %:r.aux %:r.log %:r.blg %:r.bbl && notify-send -u low "LaTeX" "compilation is finished"<cr>
 " map <leader>cm :w<cr> :!pandoc -s -f gfm -o %:r.pdf %:r.md --pdf-engine=xelatex -V geometry:margin=2cm<cr>
 autocmd Filetype markdown nnoremap <leader>cm :w<cr> :!pandoc -o %:r.pdf %:r.md<cr>
 
@@ -367,8 +376,8 @@ endif
 
  let g:ycm_semantic_triggers = {
         \ 'tex'  : ['{'],
-        \ 'markdown'  : ['@'],
-        "\ 'pandoc' : ['@'],
+        "\ 'markdown'  : ['@'],
+        \ 'pandoc' : ['@'],
         \ 'python' : ['.'],
     \}
  let g:ycm_semantic_triggers.pandoc = ['@']
@@ -465,8 +474,27 @@ let g:ale_completion_enabled = 0
 let g:ale_tex_chktex_options = '-n24; -n36' 
 let g:ale_python_black_options = '--line-length=88'
 " let g:ale_python_flake8_options = '--ignore E501'
-let g:ale_python_pylint_options = '--disable=C0301' "='line-too-long'
+let g:ale_python_pylint_options = '--rcfile ~/.config/pylint.rc' " --disable=C0301' "='line-too-long'
 set scl=no
+
+" let g:ale_lsp_auto_enable =1 
+
+  " call ale#linter#Define('tex', {
+  " \   'name': 'harper',
+  " \   'lsp': 'stdio',
+  " \   'executable': '/usr/sbin/harper-ls',
+  " \   'command': '%e --stdio',
+  "  \   'project_root': '$HOME/work/articles/article2'
+  \})
+
+  " call ale#linter#Define('tex', {
+  " \   'name': 'harper_sock',
+  " \   'lsp': 'socket',
+  " \   'address': '127.0.0.1:4000',
+  "  \   'project_root': '$HOME/work/articles/article2'
+  " \})
+" nmap <silent> K <Plug>(ale_hover)
+" nmap <silent> <leader>e <Plug>(ale_show_diagnostics)
 
 " vimREPL
 """"""""""""""""""""""""""""""
@@ -503,13 +531,14 @@ let g:repl_python_auto_send_unfinish_line = 1
 
 " figlet for presenting 
 """"""""""""""""""""""""""""""
-let g:presenting_figlets = 1
+let g:presenting_figlets = 0
 
 
 " Vim Pandoc
 """"""""""""""""""""""""""""""
 let g:pandoc#modules#disabled = ["folding"]
-" let g:pandoc#biblio#use_bibtool = 1
+" let g:pandoc#biblio#use_bibtool = 1 "doesn't work so disabled
+" let g:pandoc#biblio#sources = ["bcy"]
 "
 let g:pandoc#filetypes#handled = ["pandoc", "markdown"]
 let g:pandoc#filetypes#pandoc_markdown = 0
@@ -524,6 +553,22 @@ autocmd! User GoyoLeave Limelight!
 let g:goyo_width=110 "defualt goyo width
 
 
-
+" Csv,vim
 """""""""""""""""""""""""""""""""""""""""""""
+let g:csv_delim_test = ',;|'
+
+
+" wayland clipboard
+"""""""""""""""""""""""""""""""""""""""""""""
+" let g:wayland_clipboard_no_plus_to_w = 1
+"""""""""""""""""""""""""""""""""""""""""""""
+
+" ledger
+"""""""""""""""""""""""""""""""""""""""""""""
+  let g:ledger_maxwidth = 80
+  let g:ledger_fillstring = '    -'
+  let g:ledger_detailed_first = 1
+  let g:ledger_fuzzy_account_completion = 1
+  let g:ledger_fold_blanks = 0
+
 " END PLUGIN CONFIGURATION
