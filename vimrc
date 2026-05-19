@@ -20,6 +20,12 @@ set autowriteall          " write current buffer when moving buffers
 set clipboard=unnamedplus
 syntax enable             " enable syntax highlighting
 
+let g:bkgrn = "dark"
+colorscheme nord          " set colorscheme
+
+let &background = g:bkgrn
+hi Normal guibg=NONE ctermbg=NONE
+
 set dir=/tmp
 set backupdir=~/.cache/vim/backup
 set autochdir "change pwd to the directory of the current file, sometimes it breaks then use lcd %:p:h
@@ -42,11 +48,9 @@ if (has("termguicolors"))
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
   set termguicolors
-  set background=dark
+  let &background=g:bkgrn
 endif
 
-colorscheme nord          " set colorscheme
-hi Normal guibg=NONE ctermbg=NONE
 
 "Auto line numbers
 """"""""""""""""""""""""""""""
